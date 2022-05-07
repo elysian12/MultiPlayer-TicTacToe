@@ -35,8 +35,8 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
         maxWidth: 600,
       ),
       child: AbsorbPointer(
-        absorbing: roomDataProvider.roomData['turn']['socketID'] ==
-            _socketMethods.socketClient.id,
+        absorbing: !(roomDataProvider.roomData['turn']['socketID'] ==
+            _socketMethods.socketClient.id),
         child: GridView.builder(
           itemCount: 9,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
