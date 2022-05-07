@@ -86,7 +86,32 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.log(error);
         }
-    })
+    });
+
+    socket.on('winner', async ({ winnerSocketId, roomId }) => {
+        try {
+            let room = await Room.findById(roomId);
+            let player;
+            for (let index = 0; index < room.players.length; index++) {
+                const element = room.players[index];
+                if (element.socketID == winnerSocketId) {
+                    element.points += 1;
+                    player = element;
+                }
+            }
+            room = await room.save();
+            if (player.points == room.maxRounds) {
+                io.to(roomId).emit('endGame', player)
+            }
+            else {
+                io.to(roomId).emit('pointIncrease', player);
+                console.log(room.players);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    });
 });
 
 mongoose.connect(
