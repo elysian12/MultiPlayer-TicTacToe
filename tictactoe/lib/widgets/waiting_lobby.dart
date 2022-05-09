@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tictactoe/providers/room_data_provider.dart';
 import 'package:tictactoe/widgets/custom_textfield.dart';
 
@@ -35,6 +36,11 @@ class _WaitingLobbyState extends State<WaitingLobby> {
           controller: roomIdController,
           hintText: '',
           isReadOnly: true,
+          isSuffixIcon: true,
+          ontap: () {
+            Share.share(
+                'Hey ${Provider.of<RoomDataProvider>(context, listen: false).roomData['players'][0]['nickname']} is Wating  for you. Join the room with ${Provider.of<RoomDataProvider>(context, listen: false).roomData['_id']}');
+          },
         )
       ],
     );
